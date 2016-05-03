@@ -12,6 +12,7 @@ import { browserHistory } from 'react-router';
 var h = require('./helpers');
 import { hashHistory } from 'react-router';
 var request = require('superagent');
+import Geosuggest from 'react-geosuggest';
 
 // Helpers to request the server API.
 var data = {
@@ -135,12 +136,16 @@ var PlaceList = React.createClass({
     return (
       <div>
         <div>
-          <label>title</label>
+          <label>Place</label>
           <input ref="titleInput" type="text" ></input>
         </div>
         <div>
-          <label>url</label>
+          <label>URL</label>
           <input ref="linkInput" type="text"></input>
+        </div>
+        <div>
+          <label>Location</label>
+          <Geosuggest onSuggestSelect={(suggest) => console.log(suggest)}/>
         </div>
         <div>
           <button onClick={this.onAddClicked}>+</button>
@@ -154,5 +159,5 @@ var PlaceList = React.createClass({
 });
 
 
-ReactDOM.render(<App places={places}></App>,
+ReactDOM.render(<div><App places={places}></App></div> ,
              document.getElementById('main'));

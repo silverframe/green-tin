@@ -33,6 +33,7 @@
     "react": "^15.0.2",
     "react-addons": "^0.9.1-deprecated",
     "react-dom": "^15.0.2",
+    "react-geosuggest": "^1.22.0",
     "request": "^2.72.0",
     "slug": "^0.9.1",
     "underscore": "^1.8.3",

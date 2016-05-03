@@ -4,10 +4,10 @@ var express = require('express')
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var PouchDB = require('pouchdb');
 var request = require('superagent');
 
 // Database
+var PouchDB = require('pouchdb');
 var db = PouchDB('db');
 // API server
 var app = express();
