@@ -10,7 +10,7 @@ var stylus = require('gulp-stylus');
 var autoprefixer = require('gulp-autoprefixer');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-var buffer = require('vinyl-buffer');
+// var buffer = require('vinyl-buffer');
 
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
