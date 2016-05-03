@@ -5,6 +5,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var PouchDB = require('pouchdb');
+var request = require('superagent');
 
 // Database
 var db = PouchDB('db');

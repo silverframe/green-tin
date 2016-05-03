@@ -12,8 +12,7 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 // var buffer = require('vinyl-buffer');
 
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
+// var reload = browserSync.reload;
 var historyApiFallback = require('connect-history-api-fallback')
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
@@ -36,19 +35,10 @@ gulp.task('watch', function () {
 	gulp.watch(['./scripts/*.js'], ['scripts']);
 });
 
-gulp.task('browser-sync', function() {
-    browserSync({
-        // we need to disable clicks and forms for when we test multiple rooms
-        server : {},
-        middleware : [historyApiFallback()],
-        ghostMode: false
-    });
-});
-
 // When running 'gulp' on the terminal this task will fire.
 // It will start watching for changes in every .js file.
 // If there's a change, the task 'scripts' defined above will fire.
-gulp.task('default', ['scripts','watch','browser-sync']);
+gulp.task('default', ['scripts','watch']);
 
 // Private Functions
 // ----------------------------------------------------------------------------

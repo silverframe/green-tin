@@ -5,11 +5,13 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var Navigation = ReactRouter.Navigation;
 var History = ReactRouter.History;
+var slug = require('slug');
 // var createBrowserHistory = require('history/lib/createBrowserHistory');
 import { browserHistory } from 'react-router';
 
 var h = require('./helpers');
 import { hashHistory } from 'react-router';
+var request = require('superagent');
 
 // Helpers to request the server API.
 var data = {
@@ -86,6 +88,15 @@ var PlaceList = React.createClass({
   getInitialState: function() {
     return {places: this.props.places};
   },
+
+  componentWillMount: function() {
+    data.getPlaces(function(err, body) {
+      this.setState({
+       places: body.rows
+        });
+      }.bind(this));
+    },
+
   onAddClicked: function() {
     var places = this.state.places;
     var title = this.refs.titleInput.value;
@@ -95,6 +106,7 @@ var PlaceList = React.createClass({
     places.push(place);
 
     this.setState({places: places});
+    data.createPlace(place, function () {});
   },
   removeLine: function(line) {
     var places = this.state.places;
@@ -105,7 +117,6 @@ var PlaceList = React.createClass({
     if (index < places.length) {
       var place = places.splice(index, 1)[0];
 
-      // Changement d'état.
       this.setState({places: places});
       data.deletePlace(place, function () {});
     }
