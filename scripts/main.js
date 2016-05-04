@@ -6,6 +6,7 @@ var Route = ReactRouter.Route;
 var Navigation = ReactRouter.Navigation;
 var History = ReactRouter.History;
 var slug = require('slug');
+var Dropzone = require('react-dropzone');
 // var createBrowserHistory = require('history/lib/createBrowserHistory');
 import { browserHistory } from 'react-router';
 
@@ -16,7 +17,6 @@ import Geosuggest from 'react-geosuggest';
 
 // Helpers to request the server API.
 var data = {
-
   // Get all places stored on the server.
   getPlaces: function(callback) {
     request
@@ -29,19 +29,28 @@ var data = {
 
   // Creates a place on server. Title and url are required.
   createPlace: function(place, callback) {
-    request
+    console.log('file: ', this.currentFile);
+    console.log('hello');
+    // var formData = new FormData();
+    // formData.append('location', place.location);
+    var r = request
       .post('/api/places')
-      .send(place)
-      .end(function (err, res) {
+      .field('location', place.location)
+      .field('shortDescription', place.shortDescription)
+      if (this.currentFile) {
+        r = r.attach('image', this.currentFile, this.currentFile.name);
+      }
+
+      r.end(function (err, res) {
         callback(err, res.body);
       });
   },
 
   // Delete a place from the server.
-  // Build place id from link by slugifying it.
+  // Build place id from shortDescription by slugifying it.
   deletePlace: function(place, callback) {
     request
-      .del('/api/places/' + slug(place.link))
+      .del('/api/places/' + slug(place.location))
       .end(callback);
   }
 
@@ -66,12 +75,18 @@ var Place = React.createClass({
  },
 
  render: function() {
+   console.log(this.props)
+   var imageStyle = {
+     width: "100px",
+     height: "100px"
+   }
    return (
-     <div>
-       <p class="title">{this.props.title}</p>
-       <p class="link">
-         <a href={this.props.link}>{this.props.link}</a>
+     <div className="placeBox">
+       <p class="location">{this.props.location}</p>
+       <p class="shortDescription">
+        {this.props.shortDescription}
        </p>
+       <img src={this.props.image} style={imageStyle}/>
        <p>
          <button onClick={this.onDeleteClicked}>X</button>
        </p>
@@ -81,8 +96,8 @@ var Place = React.createClass({
 });
 
 var places = [
-  {title: "title 01", link: "http://place.com/"},
-  {title: "title 02", link: "http://place2.com/"}
+  {location: "location 01", shortDescription: "http://place.com/"},
+  {location: "location 02", shortDescription: "http://place2.com/"}
 ];
 
 var PlaceList = React.createClass({
@@ -100,19 +115,20 @@ var PlaceList = React.createClass({
 
   onAddClicked: function() {
     var places = this.state.places;
-    var title = this.refs.titleInput.value;
-    var link = this.refs.linkInput.value;
+    var location = this.refs.locationInput.value;
+    var shortDescription = this.refs.descriptionInput.value;
 
-    var place = {title: title, link: link};
+    var place = {location: location, shortDescription: shortDescription};
     places.push(place);
 
+    //formData.append('image', this.currentFile);
     this.setState({places: places});
     data.createPlace(place, function () {});
   },
   removeLine: function(line) {
     var places = this.state.places;
     var index = 0;
-    while (index < places.length && places[index].link !== line.link) {
+    while (index < places.length && places[index].shortDescription !== line.shortDescription) {
       index++;
     }
     if (index < places.length) {
@@ -123,12 +139,28 @@ var PlaceList = React.createClass({
     }
   },
 
+  onSuggestSelected: function(suggest) {
+    var location = this.refs.locationInput.value;
+    var lat = suggest.location.lat;
+    var lng = suggest.location.lng;
+    var place = {
+      location: location,
+      lat: lat,
+      lng: lng,
+    };
+
+    places.push(place);
+    this.setState({places: places});
+
+  },
+
   render: function() {
     var removeLine = this.removeLine;
+    var key = 0;
     var places = this.state.places.map(function(place) {
       return (
-        <Place title={place.title} link={place.link}
-                  removeLine={removeLine}>
+        <Place key={key++} location={place.location} shortDescription={place.shortDescription} image={place.image}
+               removeLine={removeLine}>
         </Place>
       );
     });
@@ -136,16 +168,19 @@ var PlaceList = React.createClass({
     return (
       <div>
         <div>
-          <label>Place</label>
-          <input ref="titleInput" type="text" ></input>
+          <label>Location</label>
+          <input ref="locationInput" type="text" ></input>
         </div>
         <div>
-          <label>URL</label>
-          <input ref="linkInput" type="text"></input>
+          <label>shortDescription</label>
+          <input ref="descriptionInput" type="text"></input>
         </div>
         <div>
           <label>Location</label>
-          <Geosuggest onSuggestSelect={(suggest) => console.log(suggest)}/>
+          <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
+        </div>
+        <div>
+          <DropzoneDemo />
         </div>
         <div>
           <button onClick={this.onAddClicked}>+</button>
@@ -156,6 +191,39 @@ var PlaceList = React.createClass({
       </div>
     );
   }
+});
+
+var DropzoneDemo = React.createClass({
+    getInitialState: function () {
+        return {
+          files: []
+        };
+    },
+
+    onDrop: function (files) {
+        data.currentFile = files[0];
+    },
+
+    onOpenClick: function () {
+      this.refs.dropzone.open();
+    },
+
+    render: function () {
+        return (
+            <div>
+                <Dropzone ref="dropzone" onDrop={this.onDrop}>
+                    <div>Try dropping some files here, or click to select files to upload.</div>
+                </Dropzone>
+                <button type="button" onClick={this.onOpenClick}>
+                    Open Dropzone
+                </button>
+                {this.state.files.length > 0 ? <div>
+                <h2>Uploading {this.state.files.length} files...</h2>
+                <div>{this.state.files.map((file) => <img src={file.preview} /> )}</div>
+                </div> : null}
+            </div>
+        );
+    }
 });
 
 

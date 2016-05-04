@@ -2,15 +2,17 @@ var path = require('path');
 var slug = require('slug');
 var express = require('express')
 var morgan = require('morgan');
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var request = require('superagent');
-
+var busBoy = require('connect-busboy');
 // Database
 var PouchDB = require('pouchdb');
 var db = PouchDB('db');
 // API server
 var app = express();
+var fs = require('fs');
+var path = require('path');
 
 
 // Express server configuration: handle static files, ensure
@@ -18,7 +20,9 @@ var app = express();
 // is always JSON and turn it into JS objects and logging.
 app.use(express.static(path.join(__dirname + '/')));
 app.use(methodOverride());
-app.use(bodyParser.json());
+app.use(busBoy());
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended : true}));
 app.use(morgan('dev'));
 
 
@@ -39,9 +43,7 @@ var controllers = {
     // in the database.
     all: function (req, res) {
       var allPlaces = function (doc) {
-        if (doc.type === 'place') {
-          emit(doc._id, null);
-        };
+        emit(doc._id, null);
       };
 
       db.query(allPlaces, {include_docs: true}, function (err, data) {
@@ -62,45 +64,79 @@ var controllers = {
 
     // Create a place from sent body in the database.
     create: function (req, res) {
-      var place = req.body;
+      if (req.busboy) {
 
-      if (place === undefined || place.link === undefined) {
-        res.status(400).send({msg: 'Place malformed.'});
+        var locationName = "";
+        var shortDescription = "";
 
-      } else {
-        var id = slug(place.link);
-        db.get(id, function (err, doc) {
+        var imagePath = "";
 
-          if (err && !(err.status === 404)) {
-            console.log(err);
-            res.status(500).send({msg: err});
+        req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+          console.log("on file", fieldname, filename, file);
 
-          } else if (doc !== undefined) {
-            console.log(doc);
-            res.status(400).send({msg: 'Place already exists.'});
+          //save to the local fs
+          var saveTo = path.join("./images", path.basename(filename));
+          file.pipe(fs.createWriteStream(saveTo));
 
+          imagePath = saveTo;
+        });
+        req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
+          console.log("on field", key, value);
+          if (key === "location") {
+            locationName = value;
+          }
+          if (key === "shortDescription") {
+            shortDescription = value;
+          }
+        });
+        req.busboy.on('finish', function() {
+          console.log("on finish");
+
+          var place = {
+            location: locationName,
+            shortDescription: shortDescription,
+            image: imagePath
+          };
+          console.log(place);
+          if (locationName === "") {
+            res.status(400).send({msg: 'Location name cannot be empty.'});
           } else {
-            place.type = 'place';
-            place._id = id;
-            db.put(place, function (err, place) {
+            var id = slug(place.location);
+            db.get(id, function (err, doc) {
 
-              if (err) {
+              if (err && !(err.status === 404)) {
                 console.log(err);
                 res.status(500).send({msg: err});
 
-              } else {
-                res.send(place);
+              } else if (doc !== undefined) {
+                console.log(doc);
+                res.status(400).send({msg: 'Place already exists.'});
 
+              } else {
+                place._id = id;
+                db.put(place, function (err, place) {
+
+                  if (err) {
+                    console.log(err);
+                    res.status(500).send({msg: err});
+
+                  } else {
+                    res.send(place);
+
+                  }
+                });
               }
             });
           }
         });
+        req.pipe(req.busboy);
       }
     },
 
     // Delete a place with given ID.
     delete: function (req, res) {
       var id = req.params.id;
+      console.log("DELETE THIS ID", id);
       db.get(id, function (err, doc) {
 
         if (err) {

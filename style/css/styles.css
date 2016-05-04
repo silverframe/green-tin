@@ -1,0 +1,17 @@
+body {
+  background: red;
+  width: 40%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 6px; }
+
+body {
+  width: 47.36842%;
+  float: left;
+  margin-right: 5.26316%; }
+
+#main {
+  background: blue;
+  font-family: cursive; }

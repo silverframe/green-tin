@@ -5,6 +5,10 @@ var browserify = require('browserify');
 var babelify = require('babelify');
 var watchify = require('watchify');
 var notify = require('gulp-notify');
+var sass = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
+// var browserSync = require('browser-sync').create();
+var plumber = require('gulp-plumber');
 
 var stylus = require('gulp-stylus');
 var autoprefixer = require('gulp-autoprefixer');
@@ -21,8 +25,30 @@ var dependencies = [
 ];
 var scriptsCount = 0;
 
+function customPlumber(){
+  return plumber({
+    errorHandler: function(err){
+      console.log(err.stack)
+      this.emit('emit')
+    }
+  })
+}
+
+
 // Gulp tasks
 // ----------------------------------------------------------------------------
+gulp.task('scss', function(){
+  return gulp.src('style/scss/*.scss')
+    .pipe(customPlumber())
+    .pipe(sass({
+      includePaths: ['./node_modules']
+    }))
+    .pipe(autoprefixer({
+      browsers: ['last 5 versions']
+    }))
+    .pipe(gulp.dest('style/css'))
+});
+
 gulp.task('scripts', function () {
     bundleApp(false);
 });
@@ -33,12 +59,22 @@ gulp.task('deploy', function (){
 
 gulp.task('watch', function () {
 	gulp.watch(['./scripts/*.js'], ['scripts']);
+  gulp.watch(['style/scss/*.scss'], ['scss']);
+  gulp.watch('index.html', browserSync.reload);
 });
+
+// gulp.task('browserSync', function(){
+//   browserSync.init({
+//     server: {
+//       baseDir: './'
+//     }
+//   })
+// });
 
 // When running 'gulp' on the terminal this task will fire.
 // It will start watching for changes in every .js file.
 // If there's a change, the task 'scripts' defined above will fire.
-gulp.task('default', ['scripts','watch']);
+gulp.task('default', ['scripts','watch', 'scss']);
 
 // Private Functions
 // ----------------------------------------------------------------------------

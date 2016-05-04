@@ -1,0 +1,17 @@
+body {
+  background: red;
+  width: percentage(2/5);
+  display: flex;
+  border-radius: 6px;
+}
+
+@import 'susy/sass/susy';
+
+body {
+  @include span(2);
+}
+
+#main {
+  background: blue;
+  font-family: cursive;
+}
