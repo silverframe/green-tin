@@ -1,5 +1,4 @@
 body {
-  background: red;
   width: 40%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -13,5 +12,4 @@ body {
   margin-right: 5.26316%; }
 
 #main {
-  background: blue;
-  font-family: cursive; }
+  font-family: sans-serif; }

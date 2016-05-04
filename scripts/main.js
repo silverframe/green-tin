@@ -37,6 +37,8 @@ var data = {
       .post('/api/places')
       .field('location', place.location)
       .field('shortDescription', place.shortDescription)
+      .field('lat', place.lat)
+      .field('lng', place.lng)
       if (this.currentFile) {
         r = r.attach('image', this.currentFile, this.currentFile.name);
       }
@@ -60,7 +62,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Where to Go?</h1>
+        <h1>congrats</h1>
         <PlaceList places={this.props.places}>
         </PlaceList>
       </div>
@@ -80,13 +82,17 @@ var Place = React.createClass({
      width: "100px",
      height: "100px"
    }
+   var imageElement = null;
+   if (this.props.image !== null && typeof this.props.image !== 'undefined') {
+     imageElement = <img src={this.props.image} style={imageStyle}/>;
+   }
    return (
      <div className="placeBox">
        <p class="location">{this.props.location}</p>
        <p class="shortDescription">
         {this.props.shortDescription}
        </p>
-       <img src={this.props.image} style={imageStyle}/>
+       {imageElement}
        <p>
          <button onClick={this.onDeleteClicked}>X</button>
        </p>
@@ -115,10 +121,19 @@ var PlaceList = React.createClass({
 
   onAddClicked: function() {
     var places = this.state.places;
-    var location = this.refs.locationInput.value;
+    var location = data.location;
+    var lat = data.lat;
+    var lng = data.lng;
     var shortDescription = this.refs.descriptionInput.value;
+    var image = data.currentFile.preview;
 
-    var place = {location: location, shortDescription: shortDescription};
+    var place = {
+      location,
+      shortDescription,
+      lat,
+      lng,
+      image
+    };
     places.push(place);
 
     //formData.append('image', this.currentFile);
@@ -140,18 +155,10 @@ var PlaceList = React.createClass({
   },
 
   onSuggestSelected: function(suggest) {
-    var location = this.refs.locationInput.value;
-    var lat = suggest.location.lat;
-    var lng = suggest.location.lng;
-    var place = {
-      location: location,
-      lat: lat,
-      lng: lng,
-    };
-
-    places.push(place);
-    this.setState({places: places});
-
+    console.log("s", suggest);
+    data.location = suggest.label;
+    data.lat = suggest.location.lat;
+    data.lng = suggest.location.lng;
   },
 
   render: function() {
@@ -169,15 +176,11 @@ var PlaceList = React.createClass({
       <div>
         <div>
           <label>Location</label>
-          <input ref="locationInput" type="text" ></input>
+          <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
         </div>
         <div>
           <label>shortDescription</label>
-          <input ref="descriptionInput" type="text"></input>
-        </div>
-        <div>
-          <label>Location</label>
-          <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
+          <textarea ref="descriptionInput" />
         </div>
         <div>
           <DropzoneDemo />
@@ -211,12 +214,9 @@ var DropzoneDemo = React.createClass({
     render: function () {
         return (
             <div>
-                <Dropzone ref="dropzone" onDrop={this.onDrop}>
+                <Dropzone ref="dropzone" onDrop={this.onDrop} style={{border: "3px solid red"}}>
                     <div>Try dropping some files here, or click to select files to upload.</div>
                 </Dropzone>
-                <button type="button" onClick={this.onOpenClick}>
-                    Open Dropzone
-                </button>
                 {this.state.files.length > 0 ? <div>
                 <h2>Uploading {this.state.files.length} files...</h2>
                 <div>{this.state.files.map((file) => <img src={file.preview} /> )}</div>

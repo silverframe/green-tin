@@ -68,6 +68,8 @@ var controllers = {
 
         var locationName = "";
         var shortDescription = "";
+        var lat = "";
+        var lng = "";
 
         var imagePath = "";
 
@@ -88,6 +90,12 @@ var controllers = {
           if (key === "shortDescription") {
             shortDescription = value;
           }
+          if (key === "lat") {
+            lat = value;
+          }
+          if (key === "lng") {
+            lng = value;
+          }
         });
         req.busboy.on('finish', function() {
           console.log("on finish");
@@ -95,7 +103,9 @@ var controllers = {
           var place = {
             location: locationName,
             shortDescription: shortDescription,
-            image: imagePath
+            image: imagePath,
+            lat: lat,
+            lng: lng 
           };
           console.log(place);
           if (locationName === "") {
