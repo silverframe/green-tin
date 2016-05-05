@@ -98,7 +98,7 @@ var Place = React.createClass({
            <p className="shortDescription shortDescription-tag">{this.props.shortDescription}</p>
           </div>
           <div className="card-action">
-          <button className="btn-floating waves-effect waves-light btn" onClick={this.onDeleteClicked}><i className="small material-icons">delete</i></button>
+          <button className="btn-floating waves-effect waves-light btn right delete-button" onClick={this.onDeleteClicked}><i className="small material-icons">delete</i></button>
           </div>
          </div>
    );
@@ -185,23 +185,33 @@ var PlaceList = React.createClass({
 
    return (
      <div>
-      <div className="card travel-log-form">
-        <h1>Where did you go?</h1>
+      <div className="travel-log-form">
+       {/*this it where the modal goes*/}
        <div>
-         <label>Location</label>
-         <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
+        <button onClick={this.openModal} className="waves-effect waves-light btn modal-trigger right" href="#modal1">Modal</button>
+        <div id="modal1" className="modal">
+          <div class="modal-content">
+           <div className="travel-log-form">
+            <h1>Where did you go?</h1>
+           <div>
+             <label>Location</label>
+             <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
+           </div>
+           <div>
+             <label>shortDescription</label>
+             <textarea ref="descriptionInput" className="materialize-textarea"/>
+           </div>
+           <div>
+             <DropzoneDemo />
+           </div>
+         </div>
+           <div>
+             <button className="btn waves-effect waves-light submit-button right" onClick={this.onAddClicked}>Submit<i className="material-icons right">send</i></button>
+           </div>
+          </div>
+        </div>
        </div>
-       <div>
-         <label>shortDescription</label>
-         <textarea ref="descriptionInput" className="materialize-textarea"/>
-       </div>
-       <div>
-         <DropzoneDemo />
-       </div>
-       <div>
-         <button className="btn-floating btn-large waves-effect waves-light red" onClick={this.onAddClicked}><i className="small material-icons">add</i></button>
-       </div>
-       <Modal />
+       {/*this is where the modal ends*/}
       </div>
        <Masonry options={masonryOptions}>
          {places}
@@ -216,13 +226,14 @@ var Modal = React.createClass({
   getInitialState: function() {
     return {places: this.props.places};
   },
-  
-  onSuggestSelected: function(suggest) {
-    console.log("s", suggest);
-    data.location = suggest.label;
-    data.lat = suggest.location.lat;
-    data.lng = suggest.location.lng;
-  },
+
+  componentWillMount: function() {
+    data.getPlaces(function(err, body) {
+      this.setState({
+       places: body.rows
+        });
+      }.bind(this));
+    },
 
   onAddClicked: function() {
     var places = this.state.places;
@@ -245,11 +256,27 @@ var Modal = React.createClass({
     this.setState({places: places});
     data.createPlace(place, function () {});
   },
+  removeLine: function(line) {
+    var places = this.state.places;
+    var index = 0;
+    while (index < places.length && places[index].shortDescription !== line.shortDescription) {
+      index++;
+    }
+    if (index < places.length) {
+      var place = places.splice(index, 1)[0];
 
-  openModal: function () {
-    console.log('modal clicked');
-
+      this.setState({places: places});
+      data.deletePlace(place, function () {});
+    }
   },
+
+  onSuggestSelected: function(suggest) {
+    console.log("s", suggest);
+    data.location = suggest.label;
+    data.lat = suggest.location.lat;
+    data.lng = suggest.location.lng;
+  },
+
   render: function (){
     return(
       <div>
