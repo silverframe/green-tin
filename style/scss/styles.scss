@@ -43,10 +43,39 @@ margin-bottom: 15px;
 }
 
 #country-banner {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0px, rgba(0, 0, 0, 0.6) 100%), url('http://www.mystylerepublic.com/wp-content/uploads/2012/08/Watercolor-Map-Illustration-World-Map-No.-8-1024x670.jpg');
   width: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0px, rgba(0, 0, 0, 0.6) 100%), url('https://b92c9aba86ccefe617d2f47e8f2796f6fe79bf8c.googledrive.com/host/0B9rQ-3ijhUsPbGhBTjZvS0hiMms/Singapore%20River%20Landscape.jpg');
-  height:600px;
+  height: 600px;
   background-size: cover;
   position: relative;
-  z-index: 0;
+  top: -40px;
+  // text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(238, 228, 238);
+  text-shadow: 2px 2px 5px rgba(0,0,0,.2),0 0 10px rgba(0,0,0,.3),0 0 15px rgba(0,0,0,.4),0 0 25px rgba(0,0,0,.5),0 0 35px rgba(255,255,255,.65);
+}
+
+.valign-wrapper {
+  // text-align: center;
+}
+
+.geosuggest__suggests--hidden { display: none; }
+
+.travel-log-form {
+  width: 100%;
+  left: -10px;
+  // right: -20px;
+  top: -50px;
+}
+
+.long-form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.travel-logs {
+  margin-top: -40px; 
 }

@@ -41,10 +41,49 @@ p.location.location-tag {
   margin-bottom: 15px; }
 
 #country-banner {
+  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.6) 0px, rgba(0, 0, 0, 0.6) 100%), url("http://www.mystylerepublic.com/wp-content/uploads/2012/08/Watercolor-Map-Illustration-World-Map-No.-8-1024x670.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0px, rgba(0, 0, 0, 0.6) 100%), url("http://www.mystylerepublic.com/wp-content/uploads/2012/08/Watercolor-Map-Illustration-World-Map-No.-8-1024x670.jpg");
   width: 100%;
-  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.6) 0px, rgba(0, 0, 0, 0.6) 100%), url("https://b92c9aba86ccefe617d2f47e8f2796f6fe79bf8c.googledrive.com/host/0B9rQ-3ijhUsPbGhBTjZvS0hiMms/Singapore%20River%20Landscape.jpg");
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0px, rgba(0, 0, 0, 0.6) 100%), url("https://b92c9aba86ccefe617d2f47e8f2796f6fe79bf8c.googledrive.com/host/0B9rQ-3ijhUsPbGhBTjZvS0hiMms/Singapore%20River%20Landscape.jpg");
   height: 600px;
   background-size: cover;
   position: relative;
-  z-index: 0; }
+  top: -40px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #eee4ee;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 0, 0, 0.5), 0 0 35px rgba(255, 255, 255, 0.65); }
+
+.geosuggest__suggests--hidden {
+  display: none; }
+
+.travel-log-form {
+  width: 100%;
+  left: -10px;
+  top: -50px; }
+
+.long-form {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+          align-items: flex-end; }
+
+.travel-logs {
+  margin-top: -40px; }

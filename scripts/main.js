@@ -185,10 +185,12 @@ var PlaceList = React.createClass({
 
    return (
      <div>
-      <div className="travel-log-form">
+      <div className="travel-log-form card">
        {/*this it where the modal goes*/}
        <div>
-        <button onClick={this.openModal} className="waves-effect waves-light btn modal-trigger right" href="#modal1">Modal</button>
+          <div className="long-form">
+            <button onClick={this.openModal} className="waves-effect waves-light btn modal-trigger purple darken-3" href="#modal1"><i className="material-icons">mode_edit</i></button>
+          </div>
         <div id="modal1" className="modal">
           <div class="modal-content">
            <div className="travel-log-form">
@@ -213,9 +215,11 @@ var PlaceList = React.createClass({
        </div>
        {/*this is where the modal ends*/}
       </div>
+      <div className="travel-logs">
        <Masonry options={masonryOptions}>
          {places}
        </Masonry>
+      </div> 
 
      </div>
    );
