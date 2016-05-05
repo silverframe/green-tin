@@ -1,15 +1,37 @@
+nav .nav-wrapper {
+  background-color: #4a148c;
+  font-family: 'Titillium Web', sans-serif; }
+
+nav .brand-logo {
+  padding: none; }
+
 body {
-  width: 40%;
+  background-color: #e1bee7; }
+
+#main {
+  font-family: 'Titillium Web', sans-serif; }
+
+p.location.location-tag {
+  font-weight: 500;
+  font-size: 30px; }
+
+.placeBox {
+  margin: 100px; }
+
+.card {
+  width: 300px; }
+
+.grid {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  border-radius: 6px; }
-
-body {
-  width: 47.36842%;
-  float: left;
-  margin-right: 5.26316%; }
-
-#main {
-  font-family: sans-serif; }
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  width: 1500px; }

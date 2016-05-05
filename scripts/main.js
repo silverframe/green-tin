@@ -7,7 +7,7 @@ var Navigation = ReactRouter.Navigation;
 var History = ReactRouter.History;
 var slug = require('slug');
 var Dropzone = require('react-dropzone');
-// var createBrowserHistory = require('history/lib/createBrowserHistory');
+var jquery = require('jquery');
 import { browserHistory } from 'react-router';
 
 var h = require('./helpers');
@@ -62,7 +62,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>congrats</h1>
+        <h1>Cool Place</h1>
         <PlaceList places={this.props.places}>
         </PlaceList>
       </div>
@@ -79,24 +79,26 @@ var Place = React.createClass({
  render: function() {
    console.log(this.props)
    var imageStyle = {
-     width: "100px",
-     height: "100px"
+    //  width: "100px",
+    //  height: "100px"
    }
    var imageElement = null;
    if (this.props.image !== null && typeof this.props.image !== 'undefined') {
      imageElement = <img src={this.props.image} style={imageStyle}/>;
    }
    return (
-     <div className="placeBox">
-       <p class="location">{this.props.location}</p>
-       <p class="shortDescription">
-        {this.props.shortDescription}
-       </p>
-       {imageElement}
-       <p>
-         <button onClick={this.onDeleteClicked}>X</button>
-       </p>
-     </div>
+         <div className="placeBox card grid-item">
+          <div className="card-image">
+            {imageElement}
+          </div>
+          <div className="card-content">
+           <p className="location location-tag">{this.props.location}</p>
+           <p className="shortDescription shortDescription-tag">{this.props.shortDescription}</p>
+          </div>
+          <div className="card-action">
+          <button className="btn-floating waves-effect waves-light btn" onClick={this.onDeleteClicked}><i className="small material-icons">delete</i></button>
+          </div>
+         </div>
    );
  }
 });
@@ -166,8 +168,9 @@ var PlaceList = React.createClass({
     var key = 0;
     var places = this.state.places.map(function(place) {
       return (
+
         <Place key={key++} location={place.location} shortDescription={place.shortDescription} image={place.image}
-               removeLine={removeLine}>
+               removeLine={removeLine} className={'grid-item'}>
         </Place>
       );
     });
@@ -180,21 +183,25 @@ var PlaceList = React.createClass({
         </div>
         <div>
           <label>shortDescription</label>
-          <textarea ref="descriptionInput" />
+          <textarea ref="descriptionInput" className="materialize-textarea"/>
         </div>
         <div>
           <DropzoneDemo />
         </div>
         <div>
-          <button onClick={this.onAddClicked}>+</button>
+          <button className="btn-floating btn-large waves-effect waves-light red" onClick={this.onAddClicked}><i className="small material-icons">add</i></button>
         </div>
-        <div>
+        <div className="grid">
           {places}
         </div>
       </div>
     );
   }
 });
+
+var masonryOptions = {
+    transitionDuration: 0
+};
 
 var DropzoneDemo = React.createClass({
     getInitialState: function () {
@@ -214,7 +221,7 @@ var DropzoneDemo = React.createClass({
     render: function () {
         return (
             <div>
-                <Dropzone ref="dropzone" onDrop={this.onDrop} style={{border: "3px solid red"}}>
+                <Dropzone ref="dropzone" onDrop={this.onDrop} style={{border: "3px solid red"}} className="">
                     <div>Try dropping some files here, or click to select files to upload.</div>
                 </Dropzone>
                 {this.state.files.length > 0 ? <div>
@@ -225,6 +232,15 @@ var DropzoneDemo = React.createClass({
         );
     }
 });
+
+// $( function() {
+//
+//     $('.grid').masonry({
+//         itemSelector: '.grid-item',
+//         columnWidth: 300
+//     });
+//
+// });
 
 
 ReactDOM.render(<div><App places={places}></App></div> ,

@@ -60,7 +60,6 @@ gulp.task('deploy', function (){
 gulp.task('watch', function () {
 	gulp.watch(['./scripts/*.js'], ['scripts']);
   gulp.watch(['style/scss/*.scss'], ['scss']);
-  gulp.watch('index.html', browserSync.reload);
 });
 
 // gulp.task('browserSync', function(){

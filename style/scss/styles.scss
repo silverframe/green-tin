@@ -1,15 +1,36 @@
-body {
-  width: percentage(2/5);
-  display: flex;
-  border-radius: 6px;
+nav .nav-wrapper {
+  background-color: #4a148c;
+  font-family: 'Titillium Web', sans-serif;
 }
 
-@import 'susy/sass/susy';
-
-body {
-  @include span(2);
+nav .brand-logo {
+  padding: none;
 }
 
+body {
+  background-color: #e1bee7;
+}
 #main {
-  font-family: sans-serif;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+
+p.location.location-tag{
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.placeBox {
+  margin: 100px;
+}
+
+.card {
+  width: 300px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 1500px;
 }
