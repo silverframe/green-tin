@@ -169,7 +169,7 @@ var PlaceList = React.createClass({
 
    // options for masonry component
    var masonryOptions = {
-     transitionDuration: 100,
+     transitionDuration: 500,
      fitWidth: true // the larger the value, the slower the animation is i think
    };
 
@@ -200,7 +200,7 @@ var PlaceList = React.createClass({
              <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
            </div>
            <div>
-             <label>shortDescription</label>
+             <label>Add Comment</label>
              <textarea ref="descriptionInput" className="materialize-textarea"/>
            </div>
            <div>
@@ -219,7 +219,7 @@ var PlaceList = React.createClass({
        <Masonry options={masonryOptions}>
          {places}
        </Masonry>
-      </div> 
+      </div>
 
      </div>
    );
@@ -294,7 +294,7 @@ var Modal = React.createClass({
             <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
           </div>
           <div>
-            <label>shortDescription</label>
+            <label>Description</label>
             <textarea ref="descriptionInput" className="materialize-textarea"/>
           </div>
           <div>

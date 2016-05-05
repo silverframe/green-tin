@@ -1,6 +1,6 @@
 nav .nav-wrapper {
   background-color: #4a148c;
-  font-family: 'Titillium Web', sans-serif; }
+  font-family: 'Cabin', sans-serif; }
 
 body {
   background-color: #e1bee7;
@@ -9,17 +9,20 @@ body {
   -webkit-align-items: center;
       -ms-flex-align: center;
               -ms-grid-row-align: center;
-          align-items: center; }
+          align-items: center;
+  font-family: 'Cabin', sans-serif; }
 
 #main {
-  font-family: 'Titillium Web', sans-serif; }
+  font-family: 'Cabin', sans-serif; }
 
 p.location.location-tag {
   font-weight: 500;
-  font-size: 30px; }
+  font-size: 30px;
+  line-height: 34px; }
 
 .placeBox {
-  width: 280px; }
+  width: 280px;
+  margin: 20px; }
 
 .grid {
   -webkit-align-content: center;
@@ -87,3 +90,13 @@ p.location.location-tag {
 
 .travel-logs {
   margin-top: -40px; }
+
+.tagline {
+  font-weight: 600; }
+
+.brand-logo {
+  font-weight: 500; }
+
+.tiny {
+  font-weight: 400;
+  font-size: 17px; }
