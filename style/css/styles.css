@@ -36,7 +36,8 @@ p.location.location-tag {
   -webkit-align-items: center;
       -ms-flex-align: center;
               -ms-grid-row-align: center;
-          align-items: center; }
+          align-items: center;
+  background-color: #e1bee7; }
 
 .submit-button {
   margin: 10px; }

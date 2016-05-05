@@ -187,7 +187,7 @@ var PlaceList = React.createClass({
 
    return (
      <div>
-      <div className="travel-log-form card">
+      <div className="travel-log-form card purple lighten-5">
        {/*this it where the modal goes*/}
        <div>
           <div className="long-form">
@@ -351,7 +351,7 @@ $(document).ready(function(){
       in_duration: 300, // Transition in duration
       out_duration: 200, // Transition out duration
     });
-  // $('.submit-button').closeModal(); 
+  $('.submit-button').closeModal();
 });
 
 
