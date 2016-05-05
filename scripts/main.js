@@ -14,6 +14,9 @@ var h = require('./helpers');
 import { hashHistory } from 'react-router';
 var request = require('superagent');
 import Geosuggest from 'react-geosuggest';
+var Masonry = require('react-masonry-component');
+import Popup from 'react-popup';
+
 
 // Helpers to request the server API.
 var data = {
@@ -62,7 +65,6 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Cool Place</h1>
         <PlaceList places={this.props.places}>
         </PlaceList>
       </div>
@@ -164,44 +166,97 @@ var PlaceList = React.createClass({
   },
 
   render: function() {
-    var removeLine = this.removeLine;
-    var key = 0;
-    var places = this.state.places.map(function(place) {
-      return (
 
-        <Place key={key++} location={place.location} shortDescription={place.shortDescription} image={place.image}
-               removeLine={removeLine} className={'grid-item'}>
-        </Place>
-      );
-    });
+   // options for masonry component
+   var masonryOptions = {
+     transitionDuration: 100,
+     fitWidth: true // the larger the value, the slower the animation is i think
+   };
 
-    return (
-      <div>
-        <div>
-          <label>Location</label>
-          <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
-        </div>
-        <div>
-          <label>shortDescription</label>
-          <textarea ref="descriptionInput" className="materialize-textarea"/>
-        </div>
-        <div>
-          <DropzoneDemo />
-        </div>
-        <div>
-          <button className="btn-floating btn-large waves-effect waves-light red" onClick={this.onAddClicked}><i className="small material-icons">add</i></button>
-        </div>
-        <div className="grid">
-          {places}
-        </div>
+   var removeLine = this.removeLine;
+   var key = 0;
+   var places = this.state.places.map(function(place) {
+     return (
+       <Place key={key++} location={place.location} shortDescription={place.shortDescription} image={place.image}
+              removeLine={removeLine} className={'grid-item'}>
+       </Place>
+     );
+   });
+
+   return (
+     <div>
+      <div className="card travel-log-form">
+        <h1>Where did you go?</h1>
+       <div>
+         <label>Location</label>
+         <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
+       </div>
+       <div>
+         <label>shortDescription</label>
+         <textarea ref="descriptionInput" className="materialize-textarea"/>
+       </div>
+       <div>
+         <DropzoneDemo />
+       </div>
+       <div>
+         <button className="btn-floating btn-large waves-effect waves-light red" onClick={this.onAddClicked}><i className="small material-icons">add</i></button>
+       </div>
+       <Modal />
       </div>
-    );
-  }
+       <Masonry options={masonryOptions}>
+         {places}
+       </Masonry>
+
+     </div>
+   );
+ }
 });
 
-var masonryOptions = {
-    transitionDuration: 0
-};
+var Modal = React.createClass({
+  onSuggestSelected: function(suggest) {
+    console.log("s", suggest);
+    data.location = suggest.label;
+    data.lat = suggest.location.lat;
+    data.lng = suggest.location.lng;
+  },
+
+  openModal: function () {
+    console.log('modal clicked');
+  },
+  render: function (){
+    return(
+      <div>
+       <button onClick={this.openModal} className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</button>
+       <div id="modal1" className="modal">
+         <div class="modal-content">
+         <div className="card travel-log-form">
+           <h1>Where did you go?</h1>
+          <div>
+            <label>Location</label>
+            <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
+          </div>
+          <div>
+            <label>shortDescription</label>
+            <textarea ref="descriptionInput" className="materialize-textarea"/>
+          </div>
+          <div>
+            <DropzoneDemo />
+          </div>
+        </div>
+          <div>
+            <button className="btn-floating btn-large waves-effect waves-light red" onClick={this.onAddClicked}><i className="small material-icons">add</i></button>
+          </div>
+         </div>
+         <div class="modal-footer">
+           <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+         </div>
+
+       </div>
+      </div>
+    )
+  }
+})
+
 
 var DropzoneDemo = React.createClass({
     getInitialState: function () {
@@ -232,15 +287,6 @@ var DropzoneDemo = React.createClass({
         );
     }
 });
-
-// $( function() {
-//
-//     $('.grid').masonry({
-//         itemSelector: '.grid-item',
-//         columnWidth: 300
-//     });
-//
-// });
 
 
 ReactDOM.render(<div><App places={places}></App></div> ,

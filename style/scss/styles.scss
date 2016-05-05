@@ -3,12 +3,11 @@ nav .nav-wrapper {
   font-family: 'Titillium Web', sans-serif;
 }
 
-nav .brand-logo {
-  padding: none;
-}
 
 body {
   background-color: #e1bee7;
+  width: 100%;
+  align-items: center;
 }
 #main {
   font-family: 'Titillium Web', sans-serif;
@@ -21,16 +20,16 @@ p.location.location-tag{
 }
 
 .placeBox {
-  margin: 100px;
-}
-
-.card {
-  width: 300px;
+  width: 280px;
 }
 
 .grid {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 1500px;
+  align-content: center;
+  // justify-content: center;
+}
+
+.travel-log-form {
+  // width: 800px;
+  padding: 20px;
+  align-items: center;
 }
