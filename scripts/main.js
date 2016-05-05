@@ -213,6 +213,10 @@ var PlaceList = React.createClass({
 });
 
 var Modal = React.createClass({
+  getInitialState: function() {
+    return {places: this.props.places};
+  },
+  
   onSuggestSelected: function(suggest) {
     console.log("s", suggest);
     data.location = suggest.label;
@@ -220,8 +224,31 @@ var Modal = React.createClass({
     data.lng = suggest.location.lng;
   },
 
+  onAddClicked: function() {
+    var places = this.state.places;
+    var location = data.location;
+    var lat = data.lat;
+    var lng = data.lng;
+    var shortDescription = this.refs.descriptionInput.value;
+    var image = data.currentFile.preview;
+
+    var place = {
+      location,
+      shortDescription,
+      lat,
+      lng,
+      image
+    };
+    places.push(place);
+
+    //formData.append('image', this.currentFile);
+    this.setState({places: places});
+    data.createPlace(place, function () {});
+  },
+
   openModal: function () {
     console.log('modal clicked');
+
   },
   render: function (){
     return(
@@ -229,7 +256,7 @@ var Modal = React.createClass({
        <button onClick={this.openModal} className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</button>
        <div id="modal1" className="modal">
          <div class="modal-content">
-         <div className="card travel-log-form">
+         <div className="travel-log-form">
            <h1>Where did you go?</h1>
           <div>
             <label>Location</label>
@@ -247,10 +274,6 @@ var Modal = React.createClass({
             <button className="btn-floating btn-large waves-effect waves-light red" onClick={this.onAddClicked}><i className="small material-icons">add</i></button>
           </div>
          </div>
-         <div class="modal-footer">
-           <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-         </div>
-
        </div>
       </div>
     )
@@ -286,6 +309,15 @@ var DropzoneDemo = React.createClass({
             </div>
         );
     }
+});
+
+$(document).ready(function(){
+  $('.modal-trigger').leanModal({
+      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      in_duration: 300, // Transition in duration
+      out_duration: 200, // Transition out duration
+    });
 });
 
 
