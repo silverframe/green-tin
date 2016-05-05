@@ -170,7 +170,9 @@ var PlaceList = React.createClass({
    // options for masonry component
    var masonryOptions = {
      transitionDuration: 500,
-     fitWidth: true // the larger the value, the slower the animation is i think
+     fitWidth: true,
+     percentPosition: true
+
    };
 
    var removeLine = this.removeLine;
@@ -290,11 +292,11 @@ var Modal = React.createClass({
          <div className="travel-log-form">
            <h1>Where did you go?</h1>
           <div>
-            <label>Location</label>
+            <label className="form-header">Location</label>
             <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
           </div>
           <div>
-            <label>Description</label>
+            <label className="form-header">Description</label>
             <textarea ref="descriptionInput" className="materialize-textarea"/>
           </div>
           <div>
@@ -330,7 +332,7 @@ var DropzoneDemo = React.createClass({
     render: function () {
         return (
             <div>
-                <Dropzone ref="dropzone" onDrop={this.onDrop} style={{border: "3px solid red"}} className="">
+                <Dropzone ref="dropzone" onDrop={this.onDrop} className="drop-file">
                     <div>Try dropping some files here, or click to select files to upload.</div>
                 </Dropzone>
                 {this.state.files.length > 0 ? <div>
@@ -349,6 +351,7 @@ $(document).ready(function(){
       in_duration: 300, // Transition in duration
       out_duration: 200, // Transition out duration
     });
+  // $('.submit-button').closeModal(); 
 });
 
 

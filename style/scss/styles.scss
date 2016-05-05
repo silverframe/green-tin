@@ -21,6 +21,7 @@ p.location.location-tag{
   font-weight: 500;
   font-size: 30px;
   line-height: 34px;
+  margin-bottom: 20px; 
 }
 
 .placeBox {
@@ -95,5 +96,20 @@ margin-bottom: 15px;
 
 .tiny {
   font-weight: 400;
-  font-size: 17px; 
+  font-size: 17    px;
+}
+
+.form-header {
+  font-size: 20px;
+}
+
+.drop-file {
+  border: 0.5px dotted rgb(127, 128, 124);
+  height: 150px;
+  width: 150px;
+  padding: 10px;
+}
+
+p.shortDescription.shortDescription-tag {
+ margin-top: 20px;
 }
