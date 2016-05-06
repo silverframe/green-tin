@@ -3,7 +3,7 @@ nav .nav-wrapper {
   font-family: 'Cabin', sans-serif; }
 
 body {
-  background-color: #e1bee7;
+  background-color: #ede7f6;
   width: 100%;
   -webkit-box-align: center;
   -webkit-align-items: center;
@@ -37,7 +37,7 @@ p.location.location-tag {
       -ms-flex-align: center;
               -ms-grid-row-align: center;
           align-items: center;
-  background-color: #e1bee7; }
+  color: black; }
 
 .submit-button {
   margin: 10px; }

@@ -143,6 +143,8 @@ var PlaceList = React.createClass({
     //formData.append('image', this.currentFile);
     this.setState({places: places});
     data.createPlace(place, function () {});
+    $('#modal1').closeModal();
+
   },
   removeLine: function(line) {
     var places = this.state.places;
@@ -222,7 +224,6 @@ var PlaceList = React.createClass({
          {places}
        </Masonry>
       </div>
-
      </div>
    );
  }
@@ -351,7 +352,6 @@ $(document).ready(function(){
       in_duration: 300, // Transition in duration
       out_duration: 200, // Transition out duration
     });
-  $('.submit-button').closeModal();
 });
 
 
