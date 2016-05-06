@@ -1,6 +1,7 @@
 nav .nav-wrapper {
   background-color: #4a148c;
   font-family: 'Cabin', sans-serif;
+  // color: #aa00ff;
 }
 
 
@@ -38,7 +39,7 @@ p.location.location-tag{
   // width: 800px;
   padding: 20px;
   align-items: center;
-  color: black; 
+  color: black;
   // background-color: #ede7f6;
 }
 
@@ -82,6 +83,7 @@ margin-bottom: 15px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  background-color: #ede7f6;
 }
 
 .travel-logs {
@@ -94,15 +96,17 @@ margin-bottom: 15px;
 
 .brand-logo {
   font-weight: 500;
+  color: #aa00ff;
 }
 
 .tiny {
-  font-weight: 400;
-  font-size: 17    px;
+  font-weight: 300;
+  font-size: 17px;
 }
 
-.form-header {
+#form-header {
   font-size: 20px;
+  color: black;
 }
 
 .drop-file {

@@ -293,11 +293,11 @@ var Modal = React.createClass({
          <div className="travel-log-form">
            <h1>Where did you go?</h1>
           <div>
-            <label className="form-header">Location</label>
+            <label className="form-header" id="form-header">Location</label>
             <Geosuggest onSuggestSelect={this.onSuggestSelected}/>
           </div>
           <div>
-            <label className="form-header">Description</label>
+            <label className="form-header" id="form-header">Description</label>
             <textarea ref="descriptionInput" className="materialize-textarea"/>
           </div>
           <div>

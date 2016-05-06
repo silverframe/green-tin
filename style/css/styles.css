@@ -88,7 +88,8 @@ p.location.location-tag {
   -webkit-box-align: end;
   -webkit-align-items: flex-end;
       -ms-flex-align: end;
-          align-items: flex-end; }
+          align-items: flex-end;
+  background-color: #ede7f6; }
 
 .travel-logs {
   margin-top: -40px; }
@@ -97,14 +98,16 @@ p.location.location-tag {
   font-weight: 600; }
 
 .brand-logo {
-  font-weight: 500; }
+  font-weight: 500;
+  color: #aa00ff; }
 
 .tiny {
-  font-weight: 400;
-  font-size: 17    px; }
+  font-weight: 300;
+  font-size: 17px; }
 
-.form-header {
-  font-size: 20px; }
+#form-header {
+  font-size: 20px;
+  color: black; }
 
 .drop-file {
   border: 0.5px dotted #7f807c;
